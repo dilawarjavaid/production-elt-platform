@@ -4,6 +4,7 @@ import uuid
 from validation import validate_dataset
 import pandas as pd
 from state import (calculate_file_hash, already_processed, mark_processed,)
+from s3_uploader import upload_file_to_s3
 
 
 SOURCE_DIR = Path("data/generated")
@@ -75,6 +76,8 @@ def save_to_raw_zone(dataframe, dataset_name, batch_id):
 
     print(f"Saved raw batch -> {output_path}")
 
+    return output_path, ingestion_date
+
 
 def ingest_dataset(dataset_name, batch_id):
     print(f"\nIngesting: {dataset_name}")
@@ -109,11 +112,18 @@ def ingest_dataset(dataset_name, batch_id):
         dataframe,
         batch_id
     )
-
-    save_to_raw_zone(
+    
+    output_path, ingestion_date = save_to_raw_zone(
         dataframe,
         dataset_name,
         batch_id
+    )
+
+    upload_file_to_s3(
+        local_path=output_path,
+        dataset_name=dataset_name,
+        ingestion_date=ingestion_date,
+        filename=output_path.name
     )
 
     mark_processed(
