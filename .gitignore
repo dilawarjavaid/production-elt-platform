@@ -1,0 +1,37 @@
+# Virtual environments
+.venv/
+venv/
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Secrets
+.env
+
+# VS Code
+.vscode/
+
+# PyCharm
+.idea/
+
+# Data
+data/raw/*
+data/generated/*
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+
+# Airflow
+airflow/logs/
+
+# dbt
+dbt/target/
+dbt/logs/
+dbt/dbt_packages/
+
+# OS
+.DS_Store
+Thumbs.db
