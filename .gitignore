@@ -35,3 +35,5 @@ dbt/dbt_packages/
 # OS
 .DS_Store
 Thumbs.db
+
+data/.ingestion_state.json

@@ -3,6 +3,7 @@ from datetime import datetime, timezone
 import uuid
 from validation import validate_dataset
 import pandas as pd
+from state import (calculate_file_hash, already_processed, mark_processed,)
 
 
 SOURCE_DIR = Path("data/generated")
@@ -78,8 +79,32 @@ def save_to_raw_zone(dataframe, dataset_name, batch_id):
 def ingest_dataset(dataset_name, batch_id):
     print(f"\nIngesting: {dataset_name}")
 
-    dataframe = read_dataset(dataset_name)
-    validate_dataset(dataframe, dataset_name)
+    file_path = SOURCE_DIR / f"{dataset_name}.csv"
+
+    file_hash = calculate_file_hash(
+        file_path
+    )
+
+    if already_processed(
+        dataset_name,
+        file_hash
+    ):
+        print(
+            f"Skipping {dataset_name}: "
+            "source file already processed."
+        )
+
+        return
+
+    dataframe = read_dataset(
+        dataset_name
+    )
+
+    validate_dataset(
+        dataframe,
+        dataset_name
+    )
+
     dataframe = add_ingestion_metadata(
         dataframe,
         batch_id
@@ -91,6 +116,10 @@ def ingest_dataset(dataset_name, batch_id):
         batch_id
     )
 
+    mark_processed(
+        dataset_name,
+        file_hash
+    )
 
 def main():
     batch_id = str(uuid.uuid4())
