@@ -1,7 +1,7 @@
 from pathlib import Path
 from datetime import datetime, timezone
 import uuid
-
+from validation import validate_dataset
 import pandas as pd
 
 
@@ -79,7 +79,7 @@ def ingest_dataset(dataset_name, batch_id):
     print(f"\nIngesting: {dataset_name}")
 
     dataframe = read_dataset(dataset_name)
-
+    validate_dataset(dataframe, dataset_name)
     dataframe = add_ingestion_metadata(
         dataframe,
         batch_id
