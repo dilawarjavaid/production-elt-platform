@@ -13,4 +13,5 @@ RUN pip install --no-cache-dir \
     dbt-core==1.12.3 \
     dbt-snowflake==1.12.0 \
     boto3 \
-    python-dotenv
+    python-dotenv \
+    psycopg2-binary
