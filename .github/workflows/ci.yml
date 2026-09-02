@@ -44,6 +44,25 @@ jobs:
           pip install dbt-core==1.12.3
           pip install dbt-snowflake==1.12.0
 
+      - name: Create CI dbt profile
+        run: |
+          mkdir -p ~/.dbt
+          cat > ~/.dbt/profiles.yml << 'EOF'
+          productioneltplatform:
+            target: dev
+            outputs:
+              dev:
+                type: snowflake
+                account: placeholder
+                user: placeholder
+                password: placeholder
+                role: DBT_TRANSFORMER
+                database: PRODUCTION_ELT
+                warehouse: ELT_WH
+                schema: DBT_DEV
+                threads: 4
+          EOF
+
       - name: Parse dbt project
         working-directory: productioneltplatform
         run: dbt parse --no-partial-parse
