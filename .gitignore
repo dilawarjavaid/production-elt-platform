@@ -43,3 +43,11 @@ data/.ingestion_state.json
 logs/
 **/logs/
 **/target/
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+*.tfvars
+*.tfvars.json
