@@ -26,6 +26,14 @@ with DAG(
         """,
     )
 
+    source_freshness = BashOperator(
+    task_id="source_freshness",
+    bash_command="""
+    cd /opt/airflow/project/productioneltplatform &&
+    dbt source freshness
+    """,
+    )
+
     run_dbt = BashOperator(
         task_id="run_dbt",
         bash_command="""
@@ -42,4 +50,4 @@ with DAG(
         """,
     )
 
-    ingest_data >> run_dbt >> test_dbt
+    ingest_data >> source_freshness >> run_dbt >> test_dbt
