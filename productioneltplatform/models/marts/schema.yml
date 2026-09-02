@@ -13,10 +13,11 @@ models:
     description: "Product dimension containing product attributes used for sales and order analysis."
     columns:
       - name: product_id
+        description: "Unique identifier for each product."
         tests:
           - not_null
           - unique
-
+          
   - name: fct_orders
     description: "Order-level fact table combining order details with payment information."
     columns:
@@ -81,12 +82,3 @@ models:
                 field: customer_id
               
             
-
-  - name: dim_products
-    description: "Product dimension containing product attributes used for sales and order analysis."
-    columns:
-      - name: product_id
-        description: "Unique identifier for each product."
-        tests:
-          - not_null
-          - unique
