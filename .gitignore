@@ -4,6 +4,7 @@ venv/
 
 # Python
 __pycache__/
+*.pyc
 *.py[cod]
 
 # Secrets
@@ -37,3 +38,8 @@ dbt/dbt_packages/
 Thumbs.db
 
 data/.ingestion_state.json
+
+
+logs/
+**/logs/
+**/target/

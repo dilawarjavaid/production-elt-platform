@@ -1,0 +1,31 @@
+version: 2
+
+sources:
+  - name: raw
+    database: PRODUCTION_ELT
+    schema: RAW
+    loaded_at_field: _ingested_at
+
+    freshness:
+      warn_after:
+        count: 24
+        period: hour
+      error_after:
+        count: 48
+        period: hour
+
+    tables:
+      - name: customers
+        description: "Raw customer records ingested from the source system."
+
+      - name: products
+        description: "Raw product catalog data."
+
+      - name: orders
+        description: "Raw ecommerce order records."
+
+      - name: order_items
+        description: "Raw line-item records associated with customer orders."
+
+      - name: payments
+        description: "Raw payment transaction records for orders."
